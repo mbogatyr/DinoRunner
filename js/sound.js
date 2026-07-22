@@ -2,6 +2,7 @@ class SoundManager {
     constructor() {
         this.context = null;
         this.deathScreamBuffer = null;
+        this.yahooBuffer = null;
         this.deathScream = new Audio('assets/death-scream.m4a');
         this.deathScream.preload = 'auto';
         this.deathScream.load();
@@ -12,18 +13,28 @@ class SoundManager {
         this.context = new (window.AudioContext || window.webkitAudioContext)();
         
         try {
-            const response = await fetch('assets/death-scream.m4a');
-            const arrayBuffer = await response.arrayBuffer();
-            this.deathScreamBuffer = await this.context.decodeAudioData(arrayBuffer);
+            const response1 = await fetch('assets/death-scream.m4a');
+            const arrayBuffer1 = await response1.arrayBuffer();
+            this.deathScreamBuffer = await this.context.decodeAudioData(arrayBuffer1);
             console.log("Death scream buffer loaded");
+
+            const response2 = await fetch('assets/yahoo.mp3');
+            const arrayBuffer2 = await response2.arrayBuffer();
+            this.yahooBuffer = await this.context.decodeAudioData(arrayBuffer2);
+            console.log("Yahoo buffer loaded");
         } catch (e) {
-            console.error("Failed to load death scream buffer:", e);
+            console.error("Failed to load audio buffers:", e);
         }
     }
 
     playJump() {
         console.log("Звук прыжка");
-        // If jump sound was here, I'd use same logic as playGameOver
+        if (this.context && this.yahooBuffer && Math.random() < 0.25) {
+            const source = this.context.createBufferSource();
+            source.buffer = this.yahooBuffer;
+            source.connect(this.context.destination);
+            source.start(0);
+        }
     }
 
     async playGameOver() {
