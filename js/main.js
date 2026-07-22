@@ -10,7 +10,8 @@ const dino = new Dinosaur(canvas);
 
 let cacti = [];
 let clouds = [];
-let gameActive = true;
+let gameState = 'START';
+let gameActive = false;
 let spawnTimer = 0;
 let cloudSpawnTimer = 0;
 let gameSpeed = 5;
@@ -27,16 +28,19 @@ function resetGame() {
     cacti = [];
     clouds = [];
     gameActive = true;
+    gameState = 'PLAYING';
     gameSpeed = 5;
     spawnTimer = 0;
     cloudSpawnTimer = 0;
     scoreManager.reset();
     gameOverScreen.style.display = 'none';
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('score-board').style.display = 'block';
     animate();
 }
 
 function animate() {
-    if (!gameActive) return;
+    if (!gameActive || gameState !== 'PLAYING') return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -85,6 +89,7 @@ function animate() {
             dino.y + dino.height * 0.8 > cacti[i].y
         ) {
             gameActive = false;
+            gameState = 'GAMEOVER';
             sounds.playGameOver();
             gameOverScreen.style.display = 'block';
         }
@@ -106,8 +111,12 @@ function animate() {
 
 // Слушатель для перезапуска
 window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && !gameActive) {
-        resetGame();
+    if (e.code === 'Space') {
+        if (gameState === 'START') {
+            resetGame();
+        } else if (gameState === 'GAMEOVER') {
+            resetGame();
+        }
     }
 });
 
