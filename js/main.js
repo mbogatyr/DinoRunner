@@ -36,6 +36,10 @@ function resetGame() {
     gameOverScreen.style.display = 'none';
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('score-board').style.display = 'block';
+    
+    // Initialize sound context on user interaction
+    sounds.init();
+    
     animate();
 }
 

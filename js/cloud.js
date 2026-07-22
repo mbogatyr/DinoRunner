@@ -1,11 +1,21 @@
 const cloudImage = new Image();
-cloudImage.src = 'assets/Chromium_T-Rex-cloud.png';
+cloudImage.src = 'assets/cloud.png';
 
 class Cloud {
     constructor(canvas) {
         this.canvas = canvas;
-        this.width = 100;
-        this.height = 60;
+        
+        // Maintain aspect ratio based on the image's natural dimensions
+        if (cloudImage.complete && cloudImage.naturalWidth > 0) {
+            const aspectRatio = cloudImage.naturalHeight / cloudImage.naturalWidth;
+            this.width = 100;
+            this.height = this.width * aspectRatio;
+        } else {
+            // Fallback values if image is not loaded yet
+            this.width = 100;
+            this.height = 60;
+        }
+        
         this.x = canvas.width;
         this.y = Math.random() * (canvas.height - this.height - 40) + 20;
         this.speed = 0;
