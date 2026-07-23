@@ -18,7 +18,7 @@ class SoundManager {
             this.deathScreamBuffer = await this.context.decodeAudioData(arrayBuffer1);
             console.log("Death scream buffer loaded");
 
-            const response2 = await fetch('assets/yahoo.mp3');
+            const response2 = await fetch('assets/yahoo.m4a');
             const arrayBuffer2 = await response2.arrayBuffer();
             this.yahooBuffer = await this.context.decodeAudioData(arrayBuffer2);
             console.log("Yahoo buffer loaded");
