@@ -21,8 +21,8 @@ class Cloud {
         this.speed = 0;
     }
 
-    update() {
-        this.x -= this.speed;
+    update(dt) {
+        this.x -= this.speed * dt;
     }
 
     draw(ctx) {

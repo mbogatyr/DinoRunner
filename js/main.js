@@ -15,6 +15,7 @@ let gameActive = false;
 let spawnTimer = 0;
 let cloudSpawnTimer = 0;
 let gameSpeed = 5;
+let lastTimestamp = 0;
 
 function spawnCactus() {
     cacti.push(new Cactus(canvas));
@@ -43,20 +44,30 @@ function resetGame() {
     animate();
 }
 
-function animate() {
+function animate(timestamp) {
     if (!gameActive || gameState !== 'PLAYING') return;
+
+    if (lastTimestamp === 0) {
+        lastTimestamp = timestamp;
+        requestAnimationFrame(animate);
+        return;
+    }
+
+    const deltaTime = timestamp - lastTimestamp;
+    lastTimestamp = timestamp;
+    const dt = deltaTime / 16.67;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Облака
-    cloudSpawnTimer++;
+    cloudSpawnTimer += dt;
     if (cloudSpawnTimer > 250) {
         spawnCloud();
         cloudSpawnTimer = 0;
     }
 
     for (let i = clouds.length - 1; i >= 0; i--) {
-        clouds[i].update();
+        clouds[i].update(dt);
         clouds[i].draw(ctx);
 
         if (clouds[i].isOffscreen()) {
@@ -65,7 +76,7 @@ function animate() {
     }
 
     // Динозавр
-    dino.update();
+    dino.update(dt);
     dino.draw(ctx);
 
     // Управление
@@ -75,14 +86,14 @@ function animate() {
     }
 
     // Кактусы
-    spawnTimer++;
+    spawnTimer += dt;
     if (spawnTimer > 100) {
         spawnCactus();
         spawnTimer = 0;
     }
 
     for (let i = cacti.length - 1; i >= 0; i--) {
-        cacti[i].update();
+        cacti[i].update(dt);
         cacti[i].draw(ctx);
 
         // Столкновение
@@ -106,7 +117,7 @@ function animate() {
     }
 
     // Увеличение скорости со временем
-    gameSpeed += 0.001;
+    gameSpeed += 0.001 * dt;
     cacti.forEach(c => c.speed = gameSpeed);
     clouds.forEach(c => c.speed = gameSpeed / 3);
 

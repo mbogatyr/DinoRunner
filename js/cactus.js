@@ -20,8 +20,8 @@ class Cactus {
         this.hitboxHeight = 50;
     }
 
-    update() {
-        this.x -= this.speed;
+    update(dt) {
+        this.x -= this.speed * dt;
     }
 
     draw(ctx) {

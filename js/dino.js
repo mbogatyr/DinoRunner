@@ -34,9 +34,9 @@ class Dinosaur {
         }
     }
 
-    update() {
-        this.velocity += this.gravity;
-        this.y += this.velocity;
+    update(dt) {
+        this.velocity += this.gravity * dt;
+        this.y += this.velocity * dt;
 
         // Столкновение с землей
         if (this.y + this.height > this.canvas.height) {
