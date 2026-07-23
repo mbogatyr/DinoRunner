@@ -47,12 +47,12 @@ body {
 .start-title {
     color: #535353;
     margin: 60px 0 0 0;
-    font-size: 48px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .start-subtitle {
     color: #777;
-    font-size: 24px;
+    font-family: 'Courier New', Courier, monospace;
     margin: 10px 0;
 }
 
@@ -85,8 +85,10 @@ body {
 #game-over h1 {
     color: #535353;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 #game-over p {
     color: #777;
+    font-family: 'Courier New', Courier, monospace;
 }
