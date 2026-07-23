@@ -3,7 +3,7 @@ class SoundManager {
         this.context = null;
         this.deathScreamBuffer = null;
         this.yahooBuffer = null;
-        this.deathScream = new Audio('assets/death-scream.m4a');
+        this.deathScream = new Audio('assets/ouch.m4a');
         this.deathScream.preload = 'auto';
         this.deathScream.load();
     }
@@ -13,7 +13,7 @@ class SoundManager {
         this.context = new (window.AudioContext || window.webkitAudioContext)();
         
         try {
-            const response1 = await fetch('assets/death-scream.m4a');
+            const response1 = await fetch('assets/ouch.m4a');
             const arrayBuffer1 = await response1.arrayBuffer();
             this.deathScreamBuffer = await this.context.decodeAudioData(arrayBuffer1);
             console.log("Death scream buffer loaded");
