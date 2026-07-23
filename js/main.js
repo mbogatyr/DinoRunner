@@ -47,6 +47,11 @@ function resetGame() {
 function animate(timestamp) {
     if (!gameActive || gameState !== 'PLAYING') return;
 
+    if (!timestamp) {
+        requestAnimationFrame(animate);
+        return;
+    }
+
     if (lastTimestamp === 0) {
         lastTimestamp = timestamp;
         requestAnimationFrame(animate);
@@ -55,7 +60,8 @@ function animate(timestamp) {
 
     const deltaTime = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
-    const dt = deltaTime / 16.67;
+    // Cap dt to avoid huge jumps (e.g., after tab switch)
+    const dt = Math.min(Math.max(1, deltaTime / 16.67), 5);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
